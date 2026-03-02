@@ -1,0 +1,160 @@
+run whoami for Figma
+
+COMPONENT_NAME: [ComponentName]
+COMPONENT_TYPE: Page Builder Component
+ACF_LAYOUT_NAME: [acf_layout_name]
+
+=== FUNCTIONALITY ===
+[Bullet points describing what the component does]
+
+=== REFERENCE COMPONENTS ===
+Primary Component: @figma-mcp-test/app/components/[path/to/reference].tsx
+Type Reference: @figma-mcp-test/lib/types/componentTypes/[referenceType].ts
+Fragment Reference: @figma-mcp-test/lib/queries/pageBuilderFragments/[referenceFragment].ts
+
+=== FILES TO CREATE ===
+
+Component:
+- @figma-mcp-test/app/components/pageBuilderComponents/[ComponentName].tsx
+
+Styles:
+- @figma-mcp-test/app/scss/components/[componentName].scss
+
+Types:
+- @figma-mcp-test/lib/types/componentTypes/[componentName].ts
+
+GraphQL Fragment:
+- @figma-mcp-test/lib/queries/pageBuilderFragments/[componentName]Fragment.ts
+
+=== FILES TO MODIFY ===
+
+PageBuilder Integration:
+- @figma-mcp-test/app/components/pageBuilderComponents/PageBuilder.tsx
+  * Add import for component type
+  * Add import for component
+  * Add case statement for FlexibleContentPageBuilder[ComponentName]Layout
+
+Flexible Content Fragment:
+- @figma-mcp-test/lib/queries/pageBuilderFragments/flexibleContentFragment.ts
+  * Add fragment import
+  * Add GraphQL fragment to PAGE_BUILDER_FRAGMENT
+
+=== ACF FIELDS (reference) ===
+@DeutscherAndHackettCMS/wp-content/themes/deutscherandhackett/acf-json/[group_id].json
+
+=== ACF FIELD STRUCTURE ===
+[Summary of field structure from ACF JSON]
+
+=== NAMING CONVENTIONS ===
+Component file: PascalCase (e.g., Wysiwyg.tsx, FullWidthCallout.tsx)
+Type file: camelCase (e.g., wysiwyg.ts, fullWidthCallout.ts)
+SCSS file: camelCase (e.g., wysiwyg.scss, fullWidthCallout.scss)
+Fragment file: camelCase with Fragment suffix (e.g., wysiwygFragment.ts)
+GraphQL typename: FlexibleContentPageBuilder[ComponentName]Layout
+CSS class: kebab-case matching component name (e.g., .wysiwyg, .full-width-callout)
+
+=== TYPE REQUIREMENTS ===
+Create interface matching ACF structure following this pattern:
+
+export interface [ComponentName]Layout {
+  __typename?: 'FlexibleContentPageBuilder[ComponentName]Layout';
+  fieldGroupName: string;
+  // ... component-specific fields from ACF
+}
+
+Reference: @figma-mcp-test/lib/types/componentTypes/fullWidthCallout.ts
+
+=== REQUIRED DEPENDENCIES ===
+- html-react-parser: For parsing WYSIWYG HTML content
+  Import: import parse from "html-react-parser";
+  Usage: {parse(htmlContent)}
+- next/image: For optimized images
+- [Add other component-specific dependencies]
+
+=== DESIGN REFERENCE (Figma) ===
+⚠️ CRITICAL: YOU MUST VIEW ALL FIGMA LINKS BEFORE IMPLEMENTING ⚠️
+Use the browser MCP tools to inspect the actual designs and extract:
+- Exact spacing, padding, margins
+- Font sizes, weights, line heights
+- Colors (background, text, borders)
+- Border radius, shadows
+- Grid/flex layouts and gaps
+- Responsive breakpoints
+- Hover/active states
+- Animation/transition details
+
+[Organized by viewport/state with notes]
+
+Desktop - [state]:
+[Figma URL]
+
+Mobile - [state]:
+[Figma URL]
+
+[Component] behavior:
+[Figma URL]
+Note: [Any deviations from design]
+
+=== BUTTON INTEGRATION (if applicable) ===
+Import: @figma-mcp-test/app/components/Button.tsx
+Available props:
+  - style: 'default' | 'alt'
+  - variant: 'primary' | 'secondary'
+  - type: 'button' | 'link' | 'submit'
+  - href: string (for type='link')
+  - text: string
+  - showArrow: boolean
+  - disabled: boolean
+  - className: string
+  - onClick: () => void
+
+Map ACF button fields to Button component props appropriately.
+
+=== SCSS STRUCTURE ===
+Required imports:
+  @use '../abstracts/breakpoints' as *;
+  @use '../abstracts/variables' as *; (if needed)
+
+Breakpoint mixins available:
+  @include m { } // Mobile
+  @include t { } // Tablet
+  @include d { } // Desktop
+
+CSS Variables:
+  - Prioritize using existing CSS variables from @figma-mcp-test/app/scss/abstracts/
+  - Common variables: --container-wysiwyg-max-width, colors, spacing, etc.
+
+Naming:
+  - Use BEM-like structure: .component-name__element
+  - Follow existing patterns in @figma-mcp-test/app/scss/components/
+
+=== INTEGRATION CHECKLIST ===
+1. **FIRST: View all Figma designs using browser tools**
+2. Create component type interface matching ACF structure
+3. Create GraphQL fragment with all required fields
+4. Create React component with proper imports and types
+5. Create SCSS styles using existing variables and breakpoints
+6. Add component to PageBuilder.tsx:
+   - Import component type
+   - Import component
+   - Add case statement with proper typename
+7. Add fragment to flexibleContentFragment.ts:
+   - Import fragment
+   - Add to PAGE_BUILDER_FRAGMENT GraphQL
+8. Test component rendering with sample data
+9. Verify responsive behavior across breakpoints
+10. Check accessibility (alt text, ARIA labels, semantic HTML)
+
+=== CODING STANDARDS ===
+- Prioritize using pre-existing CSS variables from @figma-mcp-test/app/scss/abstracts/
+- Use html-react-parser for WYSIWYG/HTML content: {parse(content)}
+- Follow existing component patterns in the codebase
+- Include proper TypeScript types for all props and data
+- Use semantic HTML elements
+- Ensure accessibility (alt text, ARIA labels where needed)
+- Use Next.js Image component for images with proper width/height
+- Handle null/undefined values gracefully
+- Use .container class for max-width containers
+
+=== ADDITIONAL NOTES ===
+[Any special considerations or edge cases]
